@@ -67,8 +67,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link href="assets/css/3_elementor-header-footer.css" id="hello-elementor-header-footer-css" media="all" rel="stylesheet"/>
 <link href="assets/css/4_elementor-frontend.min.css" id="elementor-frontend-css" media="all" rel="stylesheet"/>
 <link href="assets/css/5_elementor-post-6.css" id="elementor-post-6-css" media="all" rel="stylesheet"/>
-<link href="assets/css/6_elementor-widget-image.min.css" id="widget-image-css" media="all" rel="stylesheet">
-<link href="assets/css/7_elementor-pro-widget-nav-menu.min.css" id="widget-nav-menu-css" media="all" rel="stylesheet"/>
+<link href="assets/css/6_elementor-widget-image.min.css" id="widget-image-css" media="all" rel="stylesheet"/>
+<link href="assets/css/7_elementor-pro-widget-nav-menu.min.css" id="widget-nav-menu-css" media="all" rel="stylesheet">
 <link href="assets/css/8_elementor-e-animation-grow.min.css" id="e-animation-grow-css" media="all" rel="stylesheet"/>
 <link href="assets/css/9_elementor-pro-sticky.min.css" id="e-sticky-css" media="all" rel="stylesheet"/>
 <link href="assets/css/10_elementor-widget-heading.min.css" id="widget-heading-css" media="all" rel="stylesheet"/>
@@ -542,6 +542,29 @@ header.elementor-location-header::before,
     }
 }
 </style>
+
+<style id="ynlh-form-fix-css">
+    .elementor-message-danger,
+    .elementor-message.elementor-message-danger {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    .ynlh-form-success {
+        padding: 18px 24px;
+        margin-top: 20px;
+        background: #1e3a2f;
+        color: #4ade80;
+        border: 1px solid #166534;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        text-align: center;
+        line-height: 1.5;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        animation: ynlhFadeIn 0.3s ease forwards;
+    }
+    </style>
 </head>
 <body class="home wp-singular page-template-default page page-id-10 wp-custom-logo wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-kit-6 elementor-page elementor-page-10">
 <a class="skip-link screen-reader-text" href="#content">Ir al contenido</a>
@@ -1625,104 +1648,6 @@ var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof H
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. FAQ Accordion Toggle Interaction
-    document.querySelectorAll('.elementor-toggle-item').forEach(function(item) {
-        var header = item.querySelector('.elementor-tab-title');
-        var content = item.querySelector('.elementor-tab-content');
-        if (!header || !content) return;
-        
-        // Ensure default closed state if not active
-        if (!header.classList.contains('elementor-active')) {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
-        }
-
-        header.addEventListener('click', function(e) {
-            e.preventDefault();
-            var isActive = header.classList.contains('elementor-active');
-            
-            // Close all other items in this accordion
-            var parent = item.parentElement;
-            parent.querySelectorAll('.elementor-tab-title').forEach(function(h) {
-                h.classList.remove('elementor-active');
-                h.setAttribute('aria-expanded', 'false');
-            });
-            parent.querySelectorAll('.elementor-tab-content').forEach(function(c) {
-                c.style.display = 'none';
-                c.classList.remove('elementor-active');
-            });
-
-            if (!isActive) {
-                header.classList.add('elementor-active');
-                header.setAttribute('aria-expanded', 'true');
-                content.style.display = 'block';
-                content.classList.add('elementor-active');
-            }
-        });
-    });
-
-    // 2. Mobile Menu Toggle
-    var menuToggle = document.querySelector('.elementor-menu-toggle');
-    var navMenu = document.querySelector('.elementor-nav-menu--dropdown');
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            menuToggle.classList.toggle('elementor-active');
-            navMenu.style.display = (navMenu.style.display === 'block') ? 'none' : 'block';
-        });
-    }
-
-    // 3. Contact Form Submission Feedback
-    var form = document.querySelector('.elementor-form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var btn = form.querySelector('button[type="submit"]');
-            var originalText = btn ? btn.innerText : 'Enviar';
-            if (btn) {
-                btn.innerText = 'Enviando...';
-                btn.disabled = true;
-            }
-            setTimeout(function() {
-                var responseDiv = document.createElement('div');
-                responseDiv.className = 'elementor-message elementor-message-success';
-                responseDiv.style.cssText = 'padding: 15px; margin-top: 15px; background: #d4edda; color: #155724; border-radius: 6px; font-weight: 600; text-align: center;';
-                responseDiv.innerText = '¡Gracias por tu mensaje! Nos pondremos en contacto contigo lo antes posible.';
-                form.appendChild(responseDiv);
-                if (btn) {
-                    btn.innerText = '¡Enviado!';
-                }
-                form.reset();
-            }, 800);
-        });
-    }
-
-    // 4. Smooth Anchor Scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-        anchor.addEventListener('click', function (e) {
-            var targetId = this.getAttribute('href');
-            if (targetId && targetId !== '#') {
-                var target = document.querySelector(targetId);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        });
-    });
-
-    // 5. JoinChat WhatsApp float click handler
-    var waButton = document.querySelector('.joinchat__button');
-    if (waButton) {
-        waButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('https://api.whatsapp.com/send?phone=34607575278&text=Hola!%20Me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n.', '_blank');
-        });
-    }
-});
-</script><script>
-document.addEventListener('DOMContentLoaded', function() {
     var toggleBtn = document.getElementById('ynlh-toggle-projects');
     var toggleText = document.getElementById('ynlh-toggle-text');
     var toggleIcon = document.getElementById('ynlh-toggle-icon');
@@ -1791,5 +1716,85 @@ document.addEventListener('DOMContentLoaded', function() {
         initFaqAccordion();
     }
 })();
-</script></body>
+</script><script>
+    (function() {
+        function setupForm() {
+            var form = document.querySelector('.elementor-form');
+            if (!form) return;
+
+            // Desactivar handlers previos de Elementor / jQuery
+            if (window.jQuery) {
+                jQuery(form).off('submit');
+                jQuery(document).off('submit', '.elementor-form');
+            }
+
+            // Manejador prioritario en fase de captura (stopImmediatePropagation evita el AJAX fallido de Elementor)
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                // Eliminar cualquier mensaje previo
+                var existingMsgs = form.querySelectorAll('.elementor-message, .ynlh-form-success');
+                existingMsgs.forEach(function(m) { m.remove(); });
+
+                var btn = form.querySelector('button[type="submit"]');
+                var originalText = btn ? btn.innerText : 'Enviar';
+                if (btn) {
+                    btn.innerText = 'Enviando...';
+                    btn.disabled = true;
+                }
+
+                // Recoger datos del formulario
+                var nameInput = form.querySelector('[name="form_fields[name]"]');
+                var emailInput = form.querySelector('[name="form_fields[email]"]');
+                var telInput = form.querySelector('[name="form_fields[field_331b37a]"]');
+                var msgInput = form.querySelector('[name="form_fields[message]"]');
+
+                var payload = {
+                    Nombre: nameInput ? nameInput.value : '',
+                    Email: emailInput ? emailInput.value : '',
+                    Telefono: telInput ? telInput.value : '',
+                    Mensaje: msgInput ? msgInput.value : '',
+                    _subject: 'Nuevo contacto desde yonolohago.lol'
+                };
+
+                // Enviar discretamente a FormSubmit para recibir el lead en contacto@yonolohago.lol
+                try {
+                    fetch('https://formsubmit.co/ajax/contacto@yonolohago.lol', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    }).catch(function(err) {
+                        // Silenciar cualquier error de red en segundo plano
+                    });
+                } catch(e) {}
+
+                // Mostrar de inmediato confirmación de éxito profesional
+                setTimeout(function() {
+                    var successDiv = document.createElement('div');
+                    successDiv.className = 'ynlh-form-success';
+                    successDiv.innerHTML = '✓ ¡Gracias por tu mensaje! Nos pondremos en contacto contigo lo antes posible.';
+                    form.appendChild(successDiv);
+
+                    if (btn) {
+                        btn.innerText = '¡Enviado!';
+                    }
+                    form.reset();
+                }, 600);
+
+                return false;
+            }, true); // useCapture = true: se ejecuta antes que Elementor Pro
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupForm);
+        } else {
+            setupForm();
+        }
+    })();
+    </script></body>
 </html>
